@@ -16,6 +16,7 @@ Swal.fire({
 
 let inputMsj=document.getElementById("mensaje")
 let divMsjs=document.getElementById("mensajes")
+let btnEnviar=document.getElementById("enviarMensaje");
 inputMsj.focus()
 
     const socket=io()
@@ -53,6 +54,15 @@ inputMsj.focus()
             e.target.focus()
         }
         })
+
+        btnEnviar.addEventListener("click", () => {
+            const mensaje = inputMsj.value.trim();
+            if (mensaje.length > 0) {
+              socket.emit("mensaje", nombre, mensaje);
+              inputMsj.value = "";
+              inputMsj.focus();
+            }
+          });
 
         socket.on('saludo', (datos)=>{
             console.log(`${datos.emisor} dice: "${datos.mensaje}"`)
